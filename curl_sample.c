@@ -26,7 +26,7 @@ size_t buffer_writer(char *ptr, size_t size, size_t nmemb, void *stream) {
         memcpy(buf->data + buf->data_size, ptr, block);
         buf->data_size += block;
     }
-
+    printf("# recv %zd * %zd size\n", size, nmemb);
     return block;
 }
 
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     CURL *curl;
     struct Buffer *buf;
-    char *url = "http://www.goole.com/";
+    char *url = "http://www.google.com/";
     char *proxy_url = NULL;
     char *error_msg = NULL;
     CURLcode res;
@@ -76,7 +76,14 @@ int main(int argc, char **argv) {
         free(error_msg);
         return -1;
     }
-    printf("%s\n", buf->data);
+    if( buf->data )
+    {
+        printf("%s\n", buf->data);
+    }
+    else
+    {
+        printf("%s:ERROR:No Data\n",argv[0]);
+    }
 
     free(buf->data);
     free(buf);
